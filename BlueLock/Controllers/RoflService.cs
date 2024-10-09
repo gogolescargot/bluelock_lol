@@ -23,6 +23,7 @@ namespace BlueLock.Services
             }
 
             var uploadsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/rofl");
+
             Directory.CreateDirectory(uploadsDirectory);
 
             var filePath = Path.Combine(uploadsDirectory, file.FileName);
@@ -41,6 +42,8 @@ namespace BlueLock.Services
             var demo = Path.GetFileNameWithoutExtension(file.FileName);
             var roflPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/rofl", demo + ".rofl");
             var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/json", demo + ".json");
+
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/json"));
 
             var options = new ReplayReaderOptions();
             var replay = await ReplayReader.ReadReplayAsync(roflPath, options);
