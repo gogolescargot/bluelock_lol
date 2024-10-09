@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container x-auto text-center">
+    <h1 class="m-2">Welcome</h1>
+    <p>Upload your custom games here, download the game in your history match, get the .rofl match and upload it right below.</p>
+    <form asp-controller="Home" asp-action="Upload" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-10 form-group">
+                <input type="file" name="file" class="form-control" />
+            </div>
+            <button type="submit" class="col-2 btn btn-primary">Upload</button>
+        </div>
+    </form>
+</div>
