@@ -12,3 +12,6 @@ packages/
 
 .vscode/
 .vs/
+
+BlueLock/wwwroot/uploads/json/*
+BlueLock/wwwroot/uploads/rofl/*
