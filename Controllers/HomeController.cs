@@ -304,14 +304,22 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
 
-    public IActionResult Privacy()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        IMongoDatabase? database = await connectDatabase();
+
+        if (database == null)
+        {
+            _logger.LogError("Failed to connect to the database.");
+            return BadRequest("Failed to connect to the database.");
+        }
+
+        var playerCollection = database.GetCollection<Player>("player");
+
+        List<Player> players = await playerCollection.Find(_ => true).ToListAsync();
+
+        return View(players);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

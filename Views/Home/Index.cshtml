@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<BlueLock.Models.Player>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -13,4 +15,55 @@
             <button type="submit" class="col-2 btn btn-primary">Upload</button>
         </div>
     </form>
+
+    <div class="container mt-4">
+        <h2>Leaderboard</h2>
+        <table class="table table-striped" id="leaderboard">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Name</th>
+                    <th onclick="sortTable(1)">Main Role</th>
+                    <th onclick="sortTable(2)">Main Champion</th>
+                    <th onclick="sortTable(3)">KDA</th>
+                    <th onclick="sortTable(4)">Win Rate</th>
+                    <th onclick="sortTable(5)">Cs/Min</th>
+                    <th onclick="sortTable(6)">Vision Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var player in Model)
+                {
+                    <tr>
+                        <td>@player.name</td>
+                        <td>@player.mainRole</td>
+                        <td>@player.mainChamp</td>
+                        <td>@player.kda</td>
+                        <td>@player.winRate</td>
+                        <td>@player.csMin</td>
+                        <td>@player.visionScore</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script>
+function sortTable(columnIndex) {
+    var table = document.getElementById("leaderboard");
+    var rows = Array.from(table.rows).slice(1)
+    var sortedRows;
+
+    if (table.getAttribute("data-sort-direction") === "asc") {
+        sortedRows = rows.sort((a, b) => a.cells[columnIndex].innerText > b.cells[columnIndex].innerText ? 1 : -1);
+        table.setAttribute("data-sort-direction", "desc");
+    } else {
+        sortedRows = rows.sort((a, b) => a.cells[columnIndex].innerText < b.cells[columnIndex].innerText ? 1 : -1);
+        table.setAttribute("data-sort-direction", "asc");
+    }
+
+    for (var row of sortedRows) {
+        table.tBodies[0].appendChild(row);
+    }
+}
+</script>
