@@ -1,7 +1,13 @@
+using BlueLock.Database;
+using BlueLock.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
+builder.Services.AddScoped<IRoflService, RoflService>();
 
 var app = builder.Build();
 

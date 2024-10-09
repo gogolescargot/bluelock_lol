@@ -1,4 +1,3 @@
-
 namespace BlueLock.Models;
 using MongoDB.Bson;
 
