@@ -1,0 +1,14 @@
+appsettings.json
+
+[Bb]in/
+[Oo]bj/
+
+*.user
+*.suo
+
+packages/
+
+*.log
+
+.vscode/
+.vs/
