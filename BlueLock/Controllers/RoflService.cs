@@ -45,18 +45,18 @@ namespace BlueLock.Services
 
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/json"));
 
-            try
-            {
-                using (var stream = new FileStream(roflPath, FileMode.Create))
-                {
-                    ReplayType checkRofl = await ReplayReader.DetectReplayTypeAsync(stream);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to connect to MongoDB.");
-                return null;
-            }
+            //try
+            //{
+            //    using (var stream = new FileStream(roflPath, FileMode.Create))
+            //    {
+            //        ReplayType checkRofl = await ReplayReader.DetectReplayTypeAsync(stream);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "Invalid rofl file.");
+            //    return null;
+            //}
 
             var options = new ReplayReaderOptions();
             var replay = await ReplayReader.ReadReplayAsync(roflPath, options);

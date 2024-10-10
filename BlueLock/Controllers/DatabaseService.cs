@@ -87,8 +87,6 @@ public class DatabaseService : IDatabaseService
 			{
 				puuid = stat.puuid,
 				name = stat.name,
-				mainRole = stat.role,
-				mainChamp = stat.champion,
 				kill = stat.kill,
 				assist = stat.assist,
 				death = stat.death,

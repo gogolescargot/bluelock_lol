@@ -22,12 +22,10 @@
             <thead>
                 <tr>
                     <th onclick="sortTable(0)">Name</th>
-                    <th onclick="sortTable(1)">Main Role</th>
-                    <th onclick="sortTable(2)">Main Champion</th>
-                    <th onclick="sortTable(3)">KDA</th>
-                    <th onclick="sortTable(4)">Win Rate</th>
-                    <th onclick="sortTable(5)">Cs/Min</th>
-                    <th onclick="sortTable(6)">Vision Score</th>
+                    <th onclick="sortTable(1)">KDA</th>
+                    <th onclick="sortTable(2)">Win Rate</th>
+                    <th onclick="sortTable(3)">Cs/Min</th>
+                    <th onclick="sortTable(4)">Vision Score</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,8 +33,6 @@
                 {
                     <tr>
                         <td>@player.name</td>
-                        <td>@player.mainRole</td>
-                        <td>@player.mainChamp</td>
                         <td>@player.kda</td>
                         <td>@player.winRate</td>
                         <td>@player.csMin</td>

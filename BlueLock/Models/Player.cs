@@ -6,8 +6,6 @@ public class Player
 	public ObjectId id { get; set; }
     public required string puuid { get; set; }
     public required string name { get; set; }
-    public string mainRole { get; set; }
-    public string mainChamp { get; set; }
 	public int kill { get; set; }
 	public int assist { get; set; }
 	public int death { get; set; }
