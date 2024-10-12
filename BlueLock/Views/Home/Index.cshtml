@@ -7,7 +7,8 @@
 <div class="container x-auto text-center">
     <h1 class="m-2">Welcome</h1>
     <p>Upload your custom games here, download the game in your history match, get the .rofl match and upload it right below.</p>
-    <form asp-controller="Home" asp-action="Upload" method="post" enctype="multipart/form-data">
+
+    <form id="fileForm" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-10 form-group">
                 <input type="file" name="file" class="form-control" />
@@ -15,6 +16,16 @@
             <button type="submit" class="col-2 btn btn-primary">Upload</button>
         </div>
     </form>
+
+    <div id="errorAlert" class="alert alert-danger alert-dismissible fade m-4" role="alert" style="display:none;">
+        <span id="errorAlertMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div id="successAlert" class="alert alert-success alert-dismissible fade m-4" role="alert" style="display:none;">
+        <span id="successAlertMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
     <div class="container mt-4">
         <h2>Leaderboard</h2>
@@ -44,6 +55,8 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 function sortTable(columnIndex) {
     var table = document.getElementById("leaderboard");
@@ -61,5 +74,39 @@ function sortTable(columnIndex) {
     for (var row of sortedRows) {
         table.tBodies[0].appendChild(row);
     }
-}
+};
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#fileForm').on('submit', function (event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/Home/Upload',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        $('#successAlertMessage').text(response.message);
+                        $('#successAlert').show().addClass('show');
+                        $('#errorAlert').hide();
+                    } else {
+                        $('#errorAlertMessage').text(response.message);
+                        $('#errorAlert').show().addClass('show');
+                        $('#successAlert').hide();
+                    }
+                },
+                error: function () {
+                    $('#errorAlertMessage').text('An unexpected error occurred.');
+                    $('#errorAlert').show().addClass('show');
+                    $('#successAlert').hide();
+                }
+            });
+        });
+    });
 </script>

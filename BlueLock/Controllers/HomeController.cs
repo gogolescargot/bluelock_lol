@@ -26,8 +26,8 @@ public class HomeController : Controller
 
         if (database == null)
         {
-            _logger.LogError("Failed to connect to the database.");
-            return BadRequest("Failed to connect to the database.");
+            _logger.LogError("Failed to connect to MongoDB.");
+            return Json(new { success = false, message = "Failed to connect to MongoDB." });
         }
         var playerCollection = database.GetCollection<Player>("player");
 
@@ -42,7 +42,7 @@ public class HomeController : Controller
         if (await _roflService.DownloadRoflFile(file) == 1)
         {
             _logger.LogError("Invalid file upload.");
-            return BadRequest("Invalid file.");
+            return Json(new { success = false, message = "Invalid file upload." });
         }
 
         var jsonPath = await _roflService.ConvertRoflToJson(file);
@@ -50,7 +50,7 @@ public class HomeController : Controller
         if (jsonPath == null)
         {
             _logger.LogError("Failed to convert ROFL to JSON.");
-            return BadRequest("Failed to process replay file.");
+            return Json(new { success = false, message = "Failed to process replay file." });
         }
 
         var database = await _databaseService.ConnectDatabaseAsync();
@@ -58,14 +58,15 @@ public class HomeController : Controller
         if (database == null)
         {
             _logger.LogError("Failed to connect to MongoDB.");
-            return StatusCode(500, "Database connection error.");
+             return Json(new { success = false, message = "Failed to connect to MongoDB." });
         }
 
         var rootObject = await _roflService.DeserializeJson(jsonPath);
+
         if (rootObject == null)
         {
             _logger.LogError("JSON deserialization failed.");
-            return BadRequest("Invalid JSON data.");
+            return Json(new { success = false, message = "JSON deserialization failed." });
         }
 
         string gameId = _roflService.GenerateGameId(rootObject);
@@ -75,7 +76,7 @@ public class HomeController : Controller
         if (await _databaseService.GameExistsAsync(gameCollection, gameId))
         {
             _logger.LogError("Game already exists.");
-            return BadRequest("Game already uploaded.");
+            return Json(new { success = false, message = "Game already exists." });
         }
 
         var statCollection = _databaseService.GetCollection<Statistic>(database, "stat");
@@ -89,7 +90,7 @@ public class HomeController : Controller
 
         await _databaseService.InsertGame(gameCollection, gameId, rootObject.Metadata.GameLength / 60000.0f);
 
-        return RedirectToAction("Index");
+        return Json(new { success = true, message = "File uploaded successfully." });
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
